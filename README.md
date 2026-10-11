@@ -202,7 +202,7 @@ Run E1, E2, and E3 with the dataset-inference commands above. The launcher choos
 | Setting | Recorded value |
 |---|---|
 | Selected pool | 64 GSM8K + 64 MATH + 128 KodCode = 256 problems |
-| Hardware | 8 × H200 |
+| Hardware | 8 × B200 |
 | Samples per prompt | 4 |
 | Global completions per update | 8: one math and one coding group |
 | Batch / GPU; accumulation | 1; 1 |
