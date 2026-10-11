@@ -1,0 +1,26 @@
+{
+  "E1": {
+    "name": "Few-shot base",
+    "model": {"kind": "base", "id": "Qwen/Qwen2.5-1.5B-Instruct", "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"},
+    "domains": {
+      "math": {"config": "configs/eval-fewshot-math.json", "plan": "fewshot-math.json", "prompt_variant": "optional_tool"},
+      "code": {"config": "configs/eval-fewshot-code.json", "plan": "fewshot-code.json", "prompt_variant": "optional_tool"}
+    }
+  },
+  "E2": {
+    "name": "Compact base",
+    "model": {"kind": "base", "id": "Qwen/Qwen2.5-1.5B-Instruct", "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"},
+    "domains": {
+      "math": {"config": "configs/eval-compact-math.json", "plan": "compact-math.json", "prompt_variant": "compact_math"},
+      "code": {"config": "configs/eval-compact-code.json", "plan": "compact-code.json", "prompt_variant": "compact_code"}
+    }
+  },
+  "E3": {
+    "name": "Compact + GRPO",
+    "model": {"kind": "checkpoint", "path": "models/grpo-bf16"},
+    "domains": {
+      "math": {"config": "configs/eval-compact-math.json", "plan": "compact-math.json", "prompt_variant": "compact_math"},
+      "code": {"config": "configs/eval-compact-code.json", "plan": "compact-code.json", "prompt_variant": "compact_code"}
+    }
+  }
+}

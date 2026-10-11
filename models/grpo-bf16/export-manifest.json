@@ -1,0 +1,74 @@
+{
+  "format": "inference_only_bf16",
+  "checkpoint_step": 25,
+  "source_dtype": "float32",
+  "dtype": "bfloat16",
+  "source_weights_sha256": "76c797cf83e795794940a187d1400e4377958454ccaca77b6280082e21488321",
+  "tensors": 338,
+  "verified_tensors": 338,
+  "tensor_data_bytes": 3087428608,
+  "verification": "Every saved tensor equals source.to(torch.bfloat16) on CPU; no model generation run",
+  "files": {
+    "chat_template.jinja": {
+      "bytes": 2507,
+      "sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f"
+    },
+    "config.json": {
+      "bytes": 1373,
+      "sha256": "86f9f1753a9b2edf4d7d451e439706d66c054859755dd3dc01b8225e87213b27"
+    },
+    "generation_config.json": {
+      "bytes": 215,
+      "sha256": "da7ecc9bc7e5109842ea3d5ef9edaaa4bbb443804fe7d955c5adb36b1e42653d"
+    },
+    "model-00001-of-00006.safetensors": {
+      "bytes": 521801176,
+      "sha256": "87b2a71765a920a5708f36c02e3c2d2c632180711a945988aceeb07df63d17c8"
+    },
+    "model-00002-of-00006.safetensors": {
+      "bytes": 534056760,
+      "sha256": "ecb99f6904f7983c74ee21636602c64247ee5f8bf7bf9fb2c1a85a8f2e0182f2"
+    },
+    "model-00003-of-00006.safetensors": {
+      "bytes": 534056784,
+      "sha256": "c40d426fb6d8b60ceec9849b8b5239be7d40644a8dd6ea8ec6ce9222e2773825"
+    },
+    "model-00004-of-00006.safetensors": {
+      "bytes": 523035472,
+      "sha256": "b21d3e12dbd9dde831f0ddf682b4ba045f7693a16dc19ba61bf6bb93a7f8f107"
+    },
+    "model-00005-of-00006.safetensors": {
+      "bytes": 534056760,
+      "sha256": "ada323d1ed34a46755f5ca9dd16e82d66119fc710944f40abd3a198591ef97dd"
+    },
+    "model-00006-of-00006.safetensors": {
+      "bytes": 440459704,
+      "sha256": "6d2ca12bd3c85bf19ed9a185cf42e2460571acb9b08cf99f21041e3d5a562e70"
+    },
+    "model.safetensors.index.json": {
+      "bytes": 27693,
+      "sha256": "105ed7786576650d554716a2dd84dfc09c628c59695272a4c0d753d7e28b8b41"
+    },
+    "README.md": {
+      "bytes": 1096,
+      "sha256": "2d8c7105c7d5e2389b0b53794d399e6dc2d74832fc6eae464c9679cfe1bcd900"
+    },
+    "tokenizer.json": {
+      "bytes": 11421892,
+      "sha256": "3fd169731d2cbde95e10bf356d66d5997fd885dd8dbb6fb4684da3f23b2585d8"
+    },
+    "tokenizer_config.json": {
+      "bytes": 665,
+      "sha256": "47bfa3e7727312946b29ac10d6dd0672d63cf7815b2a160b9523872040d2e536"
+    },
+    "tool_rl_training.json": {
+      "bytes": 182,
+      "sha256": "2670b5b2274987733590c1f17c38e358bade4c513bd05a8492b06d53f88faf7d"
+    },
+    "LICENSE": {
+      "bytes": 11343,
+      "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e"
+    }
+  },
+  "distribution": "Git LFS; text metadata normalized to LF"
+}

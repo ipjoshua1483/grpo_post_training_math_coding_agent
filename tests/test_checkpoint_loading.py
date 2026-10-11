@@ -68,6 +68,14 @@ class CheckpointLoadingTests(unittest.TestCase):
                 with self.assertRaises(FileNotFoundError):
                     resolve_inference_checkpoint(str(Path(directory)/'missing'))
 
+    def test_git_lfs_pointer_explains_how_to_download_actual_weights(self):
+        with tempfile.TemporaryDirectory() as directory:
+            folder = Path(directory)
+            checkpoint_fixture(folder)
+            (folder/'model.safetensors').write_text('version https://git-lfs.github.com/spec/v1\noid sha256:'+'a'*64+'\nsize 123456\n')
+            with self.assertRaisesRegex(ValueError, 'git lfs pull'):
+                validate_checkpoint_folder(folder)
+
 
 if __name__ == '__main__':
     unittest.main()

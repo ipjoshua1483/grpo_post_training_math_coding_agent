@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "math_evaluator_sha256": "bba94bbfbdd86abe849c5b0bc80dc80ac47dade17d6cff9c5449b4a098cc7ec2",
-  "code_evaluator_sha256": "facc35d63d30f2a5494e14a32aa56af2bf6322aadae5cd7aee6764085d0794fe",
+  "math_evaluator_sha256": "a11df59df62ace60fcd8e911907c236f4ec9adb72071fe5caf37a8b7c187038d",
+  "code_evaluator_sha256": "b6908e909f8d75080981d8439ca3225c99e20a5461b43ff2064dd6b37655a9c2",
   "file_sha256": {
     "src/tool_rl/__init__.py": "198a1f262d3d9e08ed742fee3559e18e0b994440dc1412654bed16bddadd3a84",
     "src/tool_rl/coding_data.py": "4105a574804da6393208d5078c747e1d718bfa09ab975781969475924301f8b0",
@@ -15,8 +15,9 @@
     "src/tool_rl/environment.py": "ff8eed7b60b5ff6c69b603654a71858486d1693a414b53142a63846ebeb2c28d",
     "src/tool_rl/eval_cli.py": "88f8405eca0c82c7acf61920425e31364adbb0a1eba11640fe07e4c6b1ba6b07",
     "src/tool_rl/evaluate.py": "c6c4108dcb0b427cd4adffacb980651a95080520f3b0169efec9d41f0d73201b",
-    "src/tool_rl/experiment_data.py": "bd8714027c3cc79e79c383aec1e29a275034984d4fb646168726f44dfe122e61",
-    "src/tool_rl/inference.py": "a5f4ab6ba437bd1119f0663f669aa17116a4289e10e41856e9edda1b8f97a84b",
+    "src/tool_rl/experiment_data.py": "27f5b233cb75187676da980245549dc3bd95109897c5a21a590cc0cd932e958a",
+    "src/tool_rl/experiment_inference.py": "378c4783793eda10ba2cadb0e2c35a9bfd7fad82c470852185ca84c256e6c35f",
+    "src/tool_rl/inference.py": "73eabbd7ecc35b91ce28fa9ae6606cf31fd6090c203987b37ae1a3d4c165f0e0",
     "src/tool_rl/io.py": "943e5a4eb3b5d937d6eb7ce03272cb478c1b0ee6b4a11f65a0d7be6df2ede910",
     "src/tool_rl/joint_data.py": "f50146a2ee9b93034207253b48fb170cde7ba57045071aebc434dbc00b2fee53",
     "src/tool_rl/math_answers.py": "7389fb884c4f3844ad1e8010ed0b51bc317216622a2e96fdcaf1e3013e13bd32",
@@ -26,12 +27,12 @@
     "src/tool_rl/qwen25.py": "33ecd97d558da4b27d82f10176d373bd733d42372b9227bbfeb62fbdba135f95",
     "src/tool_rl/records.py": "fac2f7acaac0769308aaa40c9c061b701b062bb40ac1c178ddeab0290664f9f0",
     "src/tool_rl/reporting.py": "8dbea873a1abef2fd5eadb81ebc7023957480aa2558d02fcd70b3bc3e629ef62",
-    "src/tool_rl/rewards.py": "2716ca376ebf07ca1e8b5e589d35b7e48577fef07b60b225304199c04900e5ab",
-    "src/tool_rl/rollout.py": "6c2b6c9668ddf01a3eca0b19f69e85bb7fdb773c61fdb02c9c73779a661a9462",
-    "src/tool_rl/runtime.py": "0a87efd78aef62125af1043f194185cc3efd97af9f7df5af4013341699a07b15",
+    "src/tool_rl/rewards.py": "ed271cc27e9d10a6fc37ef756c1a16464377d78d94a4ee1232d1558f766b8cf2",
+    "src/tool_rl/rollout.py": "24633e5dafc461a6a0da31cb7d6fa3efb6059feab1658e7890c0750a26afb1e0",
+    "src/tool_rl/runtime.py": "25388c9c37a68126561251fd3fc049f3974aee968dd139a6f21f20935cea7216",
     "src/tool_rl/sandbox.py": "a5326691e27eee9ac89d0a1a5db5c5a1469c7c4e051a68798aecdac8cda548e6",
     "src/tool_rl/tool.py": "579d4b0d962e503a83f6e17b597be21aa304a3b809fcb034ad6c2ce23759935c",
-    "src/tool_rl/train.py": "9533cff084460fb251ebba04c52495c4abdeec75f1c8c7055e7d5584e1cb42db",
+    "src/tool_rl/train.py": "0af12374536bcf84dd1554774c21cb34c8395e6da80ae2200fc06b0e8b608bd2",
     "src/tool_rl/verifier_checks.py": "19aad3b2bafaef64b5b8198252b0f2b21958bb9a4010138e0514a0f9a9c6cabb",
     "src/tool_rl/worker.py": "fc5c3b192da201cf1d494373588f2a110f00727fc9450f3d1320d9eeba6cad53",
     "configs/data.json": "214cbeee0d910a8c41c82d9642cdce37501b4da15c3443a619dadd32cad9fdb4",
@@ -39,6 +40,7 @@
     "configs/eval-compact-math.json": "fd7a1881b78dd0cd5233b81e217f8885371c3a6cee220b5bb27468a67e011347",
     "configs/eval-fewshot-code.json": "f7db6a501f1b2edc9d1f8a626549076289593dc77f26ab2ca24ad3d72f61210a",
     "configs/eval-fewshot-math.json": "a82e41860278f6ae512f68b74ecdc883079f4cac222641e12c40b000c7004893",
+    "configs/experiments.json": "b0007ae8e72b1d02d7f3d0c0fecd32034d6cb9e7b9fc39f42baf7a2ede2a84c0",
     "configs/grpo.json": "ddbdbd0a4ff4f69f034759907dab35bc8ef200f189500c1157ca97ba1cbac493",
     "configs/joint-data.json": "82a713ac2cd876a3aa12b21c25b6a4ee2d66c9cbc9c42e81b3f5d99768df78eb",
     "prompts/compact-code.json": "f7fa8a3882d34b4d21a4cd97197073647c9259537b684651bbdb9cb60d074727",
@@ -52,8 +54,10 @@
     "scripts/export_bf16.py": "811a2caff0f9214f1f6eb12d0e1be4f12045803c726ca8092c24eede966a8980",
     "scripts/prepare_eval.py": "d94fd08abb70110eafbcecbe2575ec048ccebaaf799172ea63b285ca08c77410",
     "tests/test_checkpoint_export.py": "9bffa0eb853490fa50e5795c87206c00f99940dd304ecd93f9499e25d4b58962",
+    "tests/test_checkpoint_loading.py": "8742f7c3732b3868bd69f01e58158fc11f0c7f47ba2543ee3d97aeec422fca29",
     "tests/test_coding_eval.py": "fbfd2752ad0c9f1052192c9581911846892648bb7c917663d6b96a56505d5b9d",
     "tests/test_eval_dispatch.py": "71bb16ada5e342253abe9853f0430b7259cf3e502cb6edc9c6c2e92560db8e9b",
+    "tests/test_experiment_inference.py": "378c99323c059e38f9d8c8504c01bc7fefc1a69d3c899033883d0775275cf7d5",
     "tests/test_inference.py": "c9ee5a6c16d25a707d9afac1c1d543aaf1b66c3828d6a0e885bb032cd74b7b4f",
     "tests/test_joint_training.py": "5e1f1d910fe41bb8f06e8f583e90373c9c9f2af6dfacd817521ca49f055779f2",
     "tests/test_math_answers.py": "ae2a7b664e6a0e09fe2723d41ed5e5f54e2e347ea9ccb9508e6675e96b333f28",
@@ -61,12 +65,11 @@
     "tests/test_qwen25.py": "d0f923495d4e74c57ab496ba8498a88450c627069214fa4253ea23c8630c1796",
     "tests/test_reporting.py": "36f52bce88ec077529c3bf187ec290bd1bdf3ac83742e86067b101851776ccda",
     "tests/test_tool_pipeline.py": "09f5e1687d19e44fdadedb529cab12e4400257d21e6b84ed3e10c8b7c3e0a0b5",
-    "tests/test_training_artifacts.py": "885f346eb997496afcd9f3ad5f6c659176a860cfd33f63f2f9d3169c2d98054b",
-    "tests/test_checkpoint_loading.py": "0f3ff9288d90c8a1ab41becdf0e572ee3aaf0bdbe37359e41af263988ec6baa1"
+    "tests/test_training_artifacts.py": "885f346eb997496afcd9f3ad5f6c659176a860cfd33f63f2f9d3169c2d98054b"
   },
   "validation": {
-    "cpu_tests_run": 82,
-    "cpu_tests_passed": 81,
+    "cpu_tests_run": 87,
+    "cpu_tests_passed": 86,
     "cpu_tests_skipped": 1,
     "skip_reason": "Optional complete frozen-dataset test; downloaded benchmark data is excluded",
     "raw_E2_results_match_retained": true,
@@ -94,7 +97,10 @@
       "tied_embeddings": true,
       "tokenizer_chat_template_valid": true,
       "generation_run": false
-    }
+    },
+    "git_lfs_pointer_recovery_test_passed": true,
+    "all_three_dataset_inference_dry_runs_passed": true
   },
-  "note": "Historical measurements are retained evidence, not newly run GPU measurements. Public namespace and packaging change source fingerprints."
+  "note": "Historical measurements are retained evidence, not newly run GPU measurements. Public namespace and packaging change source fingerprints.",
+  "file_hash_scope": "Git-normalized LF text"
 }

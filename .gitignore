@@ -26,3 +26,6 @@ runs/
 !.env.example
 *.key
 *.pem
+
+# Published inference weights are stored with Git LFS.
+!models/grpo-bf16/*.safetensors

@@ -27,6 +27,14 @@ CHECKPOINT_DOWNLOAD_FILES = (
 )
 
 
+def require_downloaded_weight(path):
+    if not path.is_file():
+        raise ValueError(f'Checkpoint is missing weight shard {path.name}')
+    with path.open('rb') as weights:
+        if weights.read(64).startswith(b'version https://git-lfs.github.com/spec/v1'):
+            raise ValueError('Checkpoint weights are Git LFS pointers. Install Git LFS and run git lfs pull to download the actual weights.')
+
+
 def validate_checkpoint_folder(folder):
     """Require a complete Qwen checkpoint; never substitute untrained weights."""
     folder = Path(folder)
@@ -46,10 +54,11 @@ def validate_checkpoint_folder(folder):
             path = Path(filename)
             if path.is_absolute() or '..' in path.parts or path.suffix != '.safetensors':
                 raise ValueError('Checkpoint index must reference relative safetensors files')
-            if not (folder / path).is_file():
-                raise ValueError(f'Checkpoint is missing weight shard {filename}')
+            require_downloaded_weight(folder / path)
     elif not (folder / 'model.safetensors').is_file():
         raise ValueError('Checkpoint is missing model.safetensors or its shard index')
+    else:
+        require_downloaded_weight(folder / 'model.safetensors')
 
 
 def resolve_inference_checkpoint(model_id, revision=None):

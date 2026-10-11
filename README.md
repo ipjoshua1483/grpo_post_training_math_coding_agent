@@ -2,7 +2,7 @@
 
 An LLM agent that solves math and Python function-generation problems, optionally runs Python in a restricted Docker sandbox, and learns from binary correctness rewards through TRL GRPO. The base model is **Qwen2.5-1.5B-Instruct**.
 
-This repository contains the core implementation, the three reported experiment conditions, fixed evaluation IDs, compact evidence, and a results generator. It excludes checkpoints, downloaded datasets, full model transcripts, and superseded experiments.
+This repository contains the core implementation, the three reported experiment conditions, fixed evaluation IDs, compact evidence, and a results generator. It excludes downloaded datasets, full model transcripts, and superseded experiments. The optional BF16 checkpoint is tracked through Git LFS.
 
 ## Three experiments
 
@@ -10,7 +10,7 @@ This repository contains the core implementation, the three reported experiment 
 |---|---|---|---|
 | **E1: Few-shot base** | Untrained instruct model | Detailed domain-specific prefixes with synthetic workflow examples; optional Python tool; explicit textual controller | Prompted baseline |
 | **E2: Compact base** | Same untrained model | Short math prefix and its coding adaptation; optional tool; no few-shot examples | Pre-RL comparison |
-| **E3: Compact + GRPO** | Checkpoint at optimizer step 25 | Exactly the E2 prompts and evaluation policies | Post-training comparison |
+| **E3: Compact + GRPO** | GRPO-post-trained Qwen2.5-1.5B | Exactly the E2 prompts and evaluation policies | Post-training comparison |
 
 Both baselines allow tools. Their observed zero-call behavior in some domains does not make them deliberately tools-disabled experiments. No required-tool condition is part of these reported results.
 
@@ -22,7 +22,7 @@ The exact prefixes are easy to inspect in [prompts/](prompts/): `fewshot-math.tx
 
 One greedy answer per problem, seed **42**, on fixed held-out subsets. Math uses accuracy; coding uses pass@1 against the dataset's original tests.
 
-| Benchmark | Examples | E1: Few-shot base | E2: Compact base | E3: GRPO step 25 | E3 − E2 |
+| Benchmark | Examples | E1: Few-shot base | E2: Compact base | E3: GRPO | E3 − E2 |
 |---|---:|---:|---:|---:|---:|
 | GSM8K test | 200 | 100/200 (**50.0%**) | 104/200 (**52.0%**) | 110/200 (**55.0%**) | **+3.0 pp** |
 | MATH-500 | 200 | 79/200 (**39.5%**) | 70/200 (**35.0%**) | 74/200 (**37.0%**) | **+2.0 pp** |
@@ -98,44 +98,51 @@ docker build -f docker/Dockerfile.coding-sandbox -t tool-rl-coding-sandbox:local
 
 The host runs model inference/training; only generated code and symbolic/unit-test verification run in Docker. No GPU is exposed to the tool containers. Image IDs are recorded in new experiment manifests. The Python base-image tag is not digest-pinned, so rebuilding today may produce a different image from the historical run.
 
-## Run inference on your own problem
+## Run inference on the provided datasets
 
-Single-problem inference uses the same prompts, generation adapters, controllers, and extraction paths as evaluation. It supplies no gold answers or hidden tests, so output correctness is **not** certified.
-
-```bash
-CUDA_VISIBLE_DEVICES=0 python infer.py \
-  --domain math --prompt compact \
-  --problem "What is the sum of the cubes of the integers from 1 through 25?" \
-  --output runs/inference-math.json
-
-CUDA_VISIBLE_DEVICES=0 python infer.py \
-  --domain code --prompt compact --entry-point clamp_values \
-  --problem "Implement clamp_values(values, lower, upper): return a new list with each numeric value clamped to the inclusive bounds. Assume lower <= upper." \
-  --output runs/inference-code.json
-```
-
-Use `--prompt fewshot` for E1's prefix. `--problem-file problem.txt` accepts longer input. `--model /path/to/checkpoint-bf16` uses the separate BF16 inference checkpoint; model weights are excluded from this code repository. Base-model inference pins commit `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`. Tool use is optional, so a valid response can finish directly.
-
-### Optional trained checkpoint
-
-The step-25 model can be distributed as a separate **BF16 inference package**, approximately 3.1 GB, containing the weights, tokenizer, chat template, and configuration files. Optimizer, scheduler, and RNG state are unnecessary for inference and are excluded. Keep the package separate from GitHub source files.
+Use the same frozen GSM8K, MATH-500, HumanEval, and MBPP evaluation subsets for all three experiments. After installing the environment and preparing the data/plans below, select an experiment with `infer.py`:
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python infer.py \
-  --model /absolute/path/to/checkpoint-bf16 \
-  --domain math --prompt compact \
-  --problem "What is the sum of the squares from 1 through 30?"
+# E1: base Qwen with few-shot prompts
+python infer.py --experiment E1 --gpus 8 --output runs/E1
+
+# E2: base Qwen with compact prompts
+python infer.py --experiment E2 --gpus 8 --output runs/E2
+
+# E3: trained BF16 checkpoint with the same compact settings as E2
+python infer.py --experiment E3 --gpus 8 --output runs/E3
 ```
 
-To export an FP32 training checkpoint on CPU:
+Each command runs both math and coding datasets. Use `--domain math` or `--domain code` for one domain, and `--gpus 1` for a single GPU. `--dry-run` validates the frozen IDs and settings and prints the commands without loading a model.
+
+The model, prompts, and configuration files are selected automatically from [configs/experiments.json](configs/experiments.json):
+
+| Experiment | Model | Math config | Coding config |
+|---|---|---|---|
+| E1 | Qwen2.5-1.5B-Instruct base | `eval-fewshot-math.json` | `eval-fewshot-code.json` |
+| E2 | Same base model | `eval-compact-math.json` | `eval-compact-code.json` |
+| E3 | Included GRPO checkpoint | Same as E2 | Same as E2 |
+
+E1 and E2 download the pinned base-model revision from Hugging Face. E3 loads `models/grpo-bf16`. All conditions use the same frozen problem IDs, decoding settings, tool budgets, and graders within each domain; E1 has its distinct few-shot prompt/interaction condition. Each run writes `experiment.json` plus separate `math/` and `code/` metrics, trajectories, summaries, and manifests.
+
+### Included BF16 checkpoint
+
+The trained checkpoint is already stored in **BF16** at `models/grpo-bf16`. No conversion is needed. Its approximately 3.1 GB of inference weights are stored through Git LFS, alongside the tokenizer, chat template, and configuration files.
+
+Download the weights after cloning:
 
 ```bash
-python scripts/export_bf16.py \
-  --checkpoint /absolute/path/to/checkpoint-25 \
-  --output /absolute/path/to/checkpoint-bf16
+git lfs install --local
+git lfs pull --include="models/grpo-bf16/*.safetensors"
 ```
 
-The export verifies every tensor against the BF16 conversion of the original weights. The evaluation runtime also loads weights as BF16. This export needs PyTorch and safetensors, but does not need CUDA or run model inference.
+To clone only the code initially and download weights later:
+
+```bash
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/ipjoshua1483/grpo_post_training_math_coding_agent.git
+```
+
+For another local or Hugging Face checkpoint, use `--checkpoint PATH_OR_MODEL_ID` with E3. The downloaded snapshot is cached before dataset inference starts.
 
 ## Tool protocol, sandbox, and rewards
 
@@ -186,43 +193,7 @@ The helper checks data hashes/revisions against the retained controls, preserves
 
 All evaluations use greedy decoding (`do_sample=False`), seed 42, and the fixed domain-specific budgets. Evaluation has one independent model replica per GPU, rank-based input sharding, separate rank logs, and a checked merge. It uses **no DDP gradient synchronization**. A math worker processes 50 total examples: 25 GSM8K and 25 MATH-500. Coding workers process 18 or 19 examples each.
 
-Set these shell variables, then run each condition into fresh output directories:
-
-```bash
-MODEL=Qwen/Qwen2.5-1.5B-Instruct
-REVISION=989aa7980e4cf806f80c7fef2b1adb7bc71aa306
-
-# E1: detailed few-shot base
-torchrun --standalone --nproc-per-node=8 evaluate.py \
-  --model "$MODEL" --revision "$REVISION" \
-  --plan eval-plans/fewshot-math.json --prompt-variant optional_tool \
-  --config configs/eval-fewshot-math.json --output runs/E1-math
-torchrun --standalone --nproc-per-node=8 evaluate.py \
-  --model "$MODEL" --revision "$REVISION" \
-  --plan eval-plans/fewshot-code.json --prompt-variant optional_tool \
-  --config configs/eval-fewshot-code.json --output runs/E1-code
-
-# E2: compact base
-torchrun --standalone --nproc-per-node=8 evaluate.py \
-  --model "$MODEL" --revision "$REVISION" \
-  --plan eval-plans/compact-math.json --prompt-variant compact_math \
-  --config configs/eval-compact-math.json --output runs/E2-math
-torchrun --standalone --nproc-per-node=8 evaluate.py \
-  --model "$MODEL" --revision "$REVISION" \
-  --plan eval-plans/compact-code.json --prompt-variant compact_code \
-  --config configs/eval-compact-code.json --output runs/E2-code
-
-# E3: reuse the exact E2 plans/configs with the trained model
-CKPT=/absolute/path/to/checkpoint-25
-torchrun --standalone --nproc-per-node=8 evaluate.py \
-  --model "$CKPT" --plan eval-plans/compact-math.json --prompt-variant compact_math \
-  --config configs/eval-compact-math.json --output runs/E3-math
-torchrun --standalone --nproc-per-node=8 evaluate.py \
-  --model "$CKPT" --plan eval-plans/compact-code.json --prompt-variant compact_code \
-  --config configs/eval-compact-code.json --output runs/E3-code
-```
-
-For one GPU, replace `torchrun --standalone --nproc-per-node=8` with `CUDA_VISIBLE_DEVICES=0 python`. Completed runs contain `summary.json`, merged `metrics.jsonl`, trajectories, and a manifest. A `--dry-run` validates plans and sharding without loading the model. Recomputed results can vary with rebuilt images or a different CUDA environment; the bundled evidence describes the recorded run.
+Run E1, E2, and E3 with the dataset-inference commands above. The launcher chooses the matching math/coding plans, model revision, prompt variants, and configuration files. Existing experiment output directories are never overwritten.
 
 ## GRPO training
 
@@ -240,8 +211,7 @@ For one GPU, replace `torchrun --standalone --nproc-per-node=8` with `CUDA_VISIB
 | Loss / reward scaling | TRL `dapo` / `group`; one iteration |
 | Precision / optimizer | FP32 trainable weights, BF16 mixed precision, AdamW |
 | Completion-context limit | 1,536 tokens for both training domains |
-| Logging / saving | Every 1 / 25 steps |
-| Evaluated checkpoint | Step 25 |
+| Inference checkpoint | Included BF16 model |
 
 The replayed token stream preserves generated assistant tokens and environment tokens. Environment tokens receive loss mask 0. Generated truncated completions remain in the token loss (`mask_truncated_completions=False`) while their verified reward is 0. The trainer records per-domain rewards and optimization diagnostics. Full model training uses DDP through Accelerate; evaluation does not.
 
@@ -254,16 +224,16 @@ python -m tool_rl.joint_data \
 WORLD_SIZE=8 python train.py --config configs/grpo.json --data-dir data/joint-frozen --dry-run
 torchrun --standalone --nproc-per-node=8 train.py \
   --config configs/grpo.json --data-dir data/joint-frozen \
-  --revision "$REVISION" --output runs/grpo-main
+  --revision 989aa7980e4cf806f80c7fef2b1adb7bc71aa306 --output runs/grpo-main
 ```
 
-Use `--steps 25` for a deliberately shorter new run. Output directories must be fresh; use `--resume-from-checkpoint` only with an existing compatible training run. Keep shell logs outside the trainer's output directory.
+Output directories must be fresh; use `--resume-from-checkpoint` only with an existing compatible training run. Keep shell logs outside the trainer's output directory.
 
 ## Navigate the code
 
 | Files | Responsibility |
 |---|---|
-| `infer.py`, `src/tool_rl/inference.py` | Public single-problem inference; no hidden grader |
+| `infer.py`, `experiment_inference.py`, `inference.py` under `src/tool_rl/` | Dataset experiment selection, checkpoint loading, and inference adapters |
 | `evaluate.py`, `eval_cli.py`, `evaluate.py`, `coding_evaluate.py` under `src/tool_rl/` | Domain dispatch, GPU sharding, manifests, metrics, checked merge |
 | `prompt_variants.py`, `protocol.py`, `coding_protocol.py`; `prompts/` | Exact compact/few-shot prefixes, examples, tool syntax |
 | `runtime.py`, `qwen25.py` | Model/tokenizer loading, generation, native math adapter, token/mask preservation |
@@ -273,7 +243,7 @@ Use `--steps 25` for a deliberately shorter new run. Output directories must be 
 | `data.py`, `joint_data.py`, `records.py`, `experiment_data.py`, `coding_data.py` | Public/private splits, deterministic sampling, overlap filtering, frozen plans |
 | `train.py` under `src/tool_rl/`; `configs/grpo.json` | TRL integration, four-sample advantages, audit logging, checkpointing |
 | `report_results.py`, `reporting.py` | Regenerate retained numerical results |
-| `scripts/export_bf16.py` | Export and verify a compact inference checkpoint on CPU |
+| `scripts/export_bf16.py` | Checkpoint packaging utility |
 | `configs/`, `repro/`, `results/`, `tests/` | Reported settings, provenance, compact evidence, CPU regression checks |
 
 ## Dependencies and credits
