@@ -1,0 +1,16 @@
+{
+  "seed": 42,
+  "max_completion_length": 2048,
+  "max_prompt_tokens": 4096,
+  "max_execute_calls": 4,
+  "max_invalid_calls": 2,
+  "max_agent_turns": 7,
+  "temperature": 0.0,
+  "top_p": 0.95,
+  "enable_thinking": false,
+  "benchmark_limits": {
+    "humaneval": 50,
+    "mbpp": 100
+  },
+  "prompt_variant": "compact_code"
+}

@@ -1,0 +1,33 @@
+{
+  "prompt_variant": "optional_tool",
+  "prefix_messages": [
+    {
+      "role": "system",
+      "content": "Implement the exact Python function name requested by the problem.\nReturn complete Python source defining that function and any required helpers.\n\nThere is exactly one available tool: execute_python(code: str). A function name\nthat appears in the problem is NOT a tool; it is a function you must implement.\nTo run a self-test, emit exactly:\n<tool_call>\n{\"name\":\"execute_python\",\"arguments\":{\"code\":\"...\"}}\n</tool_call>\nThe code string must contain the complete draft implementation and any public\nself-tests you choose to write. Each call runs in a fresh restricted container,\nso state does not persist. You will receive a <tool_result> JSON block. Inspect\nit, revise when needed, and continue. You may execute at most\n4 valid calls. Malformed calls get corrective feedback and do\nnot consume that execution budget. Official hidden tests are never available to\nyou and run only after your final submission.\n\nFinish with the complete Python solution. Prefer one <final>...</final> block,\noptionally containing a Python code fence. A single Python fenced block or a\ncomplete identifiable function definition can also be graded; formatting is\nrecorded separately from unit-test correctness.\n"
+    },
+    {
+      "role": "user",
+      "content": "Example: Implement `floor_negatives(values)` so it returns a new list where each negative number is replaced by 0 and every other number is unchanged."
+    },
+    {
+      "role": "assistant",
+      "content": "I will draft the exact requested function and test boundary cases.\n<tool_call>\n{\"name\":\"execute_python\",\"arguments\":{\"code\":\"def floor_negatives(values):\\n    return [max(x, 1) for x in values]\\n\\nassert floor_negatives([-3, 0, 4]) == [0, 0, 4]\\nprint('tests passed')\"}}\n</tool_call>"
+    },
+    {
+      "role": "user",
+      "content": "<tool_result>\n{\"ok\":false,\"stdout\":\"\",\"stderr\":\"Traceback (most recent call last):\\n  ...\\nAssertionError\\n\",\"exit_code\":1,\"timed_out\":false}\n</tool_result>"
+    },
+    {
+      "role": "assistant",
+      "content": "The self-test failed because max(x, 1) changes zero to one. I will revise it to max(x, 0) and test again.\n<tool_call>\n{\"name\":\"execute_python\",\"arguments\":{\"code\":\"def floor_negatives(values):\\n    return [max(x, 0) for x in values]\\n\\nassert floor_negatives([-3, 0, 4]) == [0, 0, 4]\\nassert floor_negatives([]) == []\\nprint('tests passed')\"}}\n</tool_call>"
+    },
+    {
+      "role": "user",
+      "content": "<tool_result>\n{\"ok\":true,\"stdout\":\"tests passed\\n\",\"stderr\":\"\",\"exit_code\":0,\"timed_out\":false}\n</tool_result>"
+    },
+    {
+      "role": "assistant",
+      "content": "The revised implementation passes both self-tests.\n<final>\ndef floor_negatives(values):\n    return [max(x, 0) for x in values]\n</final>"
+    }
+  ]
+}

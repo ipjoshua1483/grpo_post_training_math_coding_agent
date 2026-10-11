@@ -1,0 +1,18 @@
+{
+  "evaluation": {
+    "E1": "Historical aggregates only; original per-example logs unavailable.",
+    "E2": "550 retained per-example metric rows, stripped of problem/answer text.",
+    "E3": "Historical aggregates only; original post-training per-example logs unavailable."
+  },
+  "training": "Per-rollout reward/ID/tool counters and rank-0 TRL metrics/audits retained; no model tokens, hidden tests, or problem text exported.",
+  "source_log_sha256": {
+    "E2-math": "99125a3aa27fe5f940a3c2f6712e40e8ddcca24349a1cb65b4e2cb6a9fbca0d5",
+    "E2-code": "8af0037ad9ab84e5b0801129dc49c3ef355191c5f8a558dce70abb51f5704681"
+  },
+  "limitations": [
+    "One seed and fixed subsets; no significance claim.",
+    "Math prompt comparison also changes chat-template/tool-observation rendering.",
+    "Aggregate-only conditions cannot support a paired per-example comparison.",
+    "Exact training-data rebuilding needs the unavailable KodCode data manifest."
+  ]
+}

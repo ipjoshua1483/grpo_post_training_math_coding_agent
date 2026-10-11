@@ -1,0 +1,16 @@
+{
+  "seed": 42,
+  "max_completion_length": 1536,
+  "max_prompt_tokens": 4096,
+  "max_execute_calls": 2,
+  "max_invalid_calls": 2,
+  "max_agent_turns": 6,
+  "temperature": 0.0,
+  "top_p": 0.95,
+  "enable_thinking": false,
+  "benchmark_limits": {
+    "gsm8k": 200,
+    "math500": 200
+  },
+  "prompt_variant": "compact_math"
+}

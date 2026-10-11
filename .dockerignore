@@ -1,0 +1,10 @@
+.git
+.venv*
+data
+runs
+results
+__pycache__
+.analysis-deps
+.mpl-cache
+.test-temp
+eval-plans

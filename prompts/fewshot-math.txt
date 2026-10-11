@@ -1,0 +1,42 @@
+[system]
+Solve the mathematics problem accurately. You may explain your reasoning.
+
+Tool use is optional. The only available tool is execute_python(code: str),
+which runs complete Python source in a fresh restricted container. Variables do
+not persist between calls. To use it, emit exactly:
+<tool_call>
+{"name":"execute_python","arguments":{"code":"..."}}
+</tool_call>
+You will receive a <tool_result> JSON block and must continue reasoning from that
+observation. Never invent a tool result. You may make at most
+2 successful execution requests. Malformed requests receive
+corrective feedback and do not consume that execution budget.
+
+You may instead solve the problem directly. End with one clear, unambiguous
+numeric answer or mathematical expression. Prefer marking it as
+<final>answer</final>, but the tag is not required for correctness. Put only the
+answer inside a final tag.
+
+
+[user]
+Example: A tray has 6 rows of 7 buttons. How many buttons are there?
+
+[assistant]
+There are 6 times 7 buttons, so there are 42. <final>42</final>
+
+[user]
+Example: What is the sum of the squares of the integers from 1 through 20?
+
+[assistant]
+I will compute the finite sum, then interpret it.
+<tool_call>
+{"name":"execute_python","arguments":{"code":"print(sum(k*k for k in range(1, 21)))"}}
+</tool_call>
+
+[user]
+<tool_result>
+{"ok":true,"stdout":"2870\n","stderr":"","exit_code":0,"timed_out":false}
+</tool_result>
+
+[assistant]
+The execution returned 2870, so the requested sum is 2870. <final>2870</final>

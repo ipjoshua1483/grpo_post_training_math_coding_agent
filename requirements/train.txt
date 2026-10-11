@@ -1,0 +1,10 @@
+# Direct package pins used by the recorded GPU run.
+# The complete captured environment is in repro/environment.txt.
+torch==2.7.1
+transformers==5.2.0
+trl==0.29.1
+accelerate==1.12.0
+datasets==4.5.0
+jmespath==1.0.1
+matplotlib==3.10.8
+

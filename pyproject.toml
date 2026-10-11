@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tool-augmented-rlvr"
+version = "0.1.0"
+description = "Small-model tool-use trajectories, verifiable rewards, and joint GRPO"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+tool-rl-infer = "tool_rl.inference:main"
+tool-rl-report = "tool_rl.reporting:main"
+tool-rl-eval = "tool_rl.eval_cli:main"
+tool-rl-code-eval = "tool_rl.coding_evaluate:main"
+tool-rl-train = "tool_rl.train:main"
+tool-rl-data = "tool_rl.data:main"
+tool-rl-joint-data = "tool_rl.joint_data:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

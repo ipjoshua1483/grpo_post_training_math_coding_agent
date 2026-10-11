@@ -1,0 +1,11 @@
+{
+  "seed": 42,
+  "train_limit": 2048,
+  "dev_limit": 256,
+  "min_tests": 5,
+  "difficulty_weights": {
+    "easy": 0.6,
+    "medium": 0.35,
+    "hard": 0.05
+  }
+}

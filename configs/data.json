@@ -1,0 +1,8 @@
+{
+  "seed": 42,
+  "dev_per_math_dataset": 128,
+  "train_limits": {
+    "gsm8k": 1024,
+    "math": 1024
+  }
+}

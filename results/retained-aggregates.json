@@ -1,0 +1,168 @@
+{
+  "E1": {
+    "condition": "Few-shot base",
+    "results": {
+      "gsm8k": {
+        "n": 200,
+        "correct": 100,
+        "score": 0.5,
+        "tool_call_rate": 0.0
+      },
+      "math500": {
+        "n": 200,
+        "correct": 79,
+        "score": 0.395,
+        "tool_call_rate": 0.0
+      },
+      "humaneval": {
+        "n": 50,
+        "correct": 21,
+        "score": 0.42,
+        "tool_call_rate": 0.0
+      },
+      "mbpp": {
+        "n": 100,
+        "correct": 32,
+        "score": 0.32,
+        "tool_call_rate": 0.0
+      }
+    },
+    "evidence": "aggregate_only"
+  },
+  "E2": {
+    "condition": "Compact base",
+    "results": {
+      "gsm8k": {
+        "n": 200,
+        "correct": 104,
+        "score": 0.52,
+        "tool_call_rate": 0.48,
+        "valid_tool_call_rate": 0.8290598290598291,
+        "mean_calls_per_problem": 0.585,
+        "mean_executed_calls": 0.47,
+        "tool_errors_per_problem": 0.05,
+        "invalid_calls_per_problem": 0.1,
+        "timeouts_per_problem": 0.0,
+        "mean_response_tokens": 297.2,
+        "truncation_rate": 0.005,
+        "format_rate": 0.08
+      },
+      "math500": {
+        "n": 200,
+        "correct": 70,
+        "score": 0.35,
+        "tool_call_rate": 0.28,
+        "valid_tool_call_rate": 0.7121212121212122,
+        "mean_calls_per_problem": 0.33,
+        "mean_executed_calls": 0.225,
+        "tool_errors_per_problem": 0.035,
+        "invalid_calls_per_problem": 0.095,
+        "timeouts_per_problem": 0.0,
+        "mean_response_tokens": 510.16,
+        "truncation_rate": 0.03,
+        "format_rate": 0.075
+      },
+      "humaneval": {
+        "n": 50,
+        "correct": 17,
+        "score": 0.34,
+        "tool_call_rate": 0.0,
+        "valid_tool_call_rate": null,
+        "mean_calls_per_problem": 0.0,
+        "tool_errors_per_problem": 0.0,
+        "invalid_calls_per_problem": 0.0,
+        "tool_timeouts_per_problem": 0.0,
+        "verifier_timeouts": 0,
+        "mean_response_tokens": 132.12,
+        "truncation_rate": 0.0,
+        "format_rate": 0.0
+      },
+      "mbpp": {
+        "n": 100,
+        "correct": 27,
+        "score": 0.27,
+        "tool_call_rate": 0.0,
+        "valid_tool_call_rate": null,
+        "mean_calls_per_problem": 0.0,
+        "tool_errors_per_problem": 0.0,
+        "invalid_calls_per_problem": 0.0,
+        "tool_timeouts_per_problem": 0.0,
+        "verifier_timeouts": 0,
+        "mean_response_tokens": 118.25,
+        "truncation_rate": 0.0,
+        "format_rate": 0.0
+      }
+    },
+    "evidence": "per_example_logs"
+  },
+  "E3": {
+    "condition": "Compact + GRPO step 25",
+    "results": {
+      "gsm8k": {
+        "n": 200,
+        "correct": 110,
+        "score": 0.55,
+        "score_name": "accuracy",
+        "tool_call_rate": 0.42,
+        "valid_tool_call_rate": 0.7476635514018691,
+        "mean_calls_per_problem": 0.535,
+        "mean_executed_calls": 0.38,
+        "tool_errors_per_problem": 0.045,
+        "invalid_calls_per_problem": 0.135,
+        "timeouts_per_problem": 0.0,
+        "mean_response_tokens": 322.73,
+        "truncation_rate": 0.015,
+        "format_rate": 0.07
+      },
+      "math500": {
+        "n": 200,
+        "correct": 74,
+        "score": 0.37,
+        "score_name": "accuracy",
+        "tool_call_rate": 0.245,
+        "valid_tool_call_rate": 0.6666666666666666,
+        "mean_calls_per_problem": 0.315,
+        "mean_executed_calls": 0.2,
+        "tool_errors_per_problem": 0.04,
+        "invalid_calls_per_problem": 0.105,
+        "timeouts_per_problem": 0.0,
+        "mean_response_tokens": 498.445,
+        "truncation_rate": 0.03,
+        "format_rate": 0.08
+      },
+      "humaneval": {
+        "n": 50,
+        "correct": 20,
+        "score": 0.4,
+        "score_name": "pass_at_1",
+        "tool_call_rate": 0.0,
+        "valid_tool_call_rate": null,
+        "mean_calls_per_problem": 0.0,
+        "tool_errors_per_problem": 0.0,
+        "invalid_calls_per_problem": 0.0,
+        "tool_timeouts_per_problem": 0.0,
+        "verifier_timeouts": 0,
+        "mean_response_tokens": 114.14,
+        "truncation_rate": 0.0,
+        "format_rate": 0.0
+      },
+      "mbpp": {
+        "n": 100,
+        "correct": 33,
+        "score": 0.33,
+        "score_name": "pass_at_1",
+        "tool_call_rate": 0.0,
+        "valid_tool_call_rate": null,
+        "mean_calls_per_problem": 0.0,
+        "tool_errors_per_problem": 0.0,
+        "invalid_calls_per_problem": 0.0,
+        "tool_timeouts_per_problem": 0.0,
+        "verifier_timeouts": 0,
+        "mean_response_tokens": 105.36,
+        "truncation_rate": 0.0,
+        "format_rate": 0.0
+      }
+    },
+    "evidence": "aggregate_only"
+  }
+}

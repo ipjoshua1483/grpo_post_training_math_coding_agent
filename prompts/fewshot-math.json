@@ -1,0 +1,33 @@
+{
+  "prompt_variant": "optional_tool",
+  "prefix_messages": [
+    {
+      "role": "system",
+      "content": "Solve the mathematics problem accurately. You may explain your reasoning.\n\nTool use is optional. The only available tool is execute_python(code: str),\nwhich runs complete Python source in a fresh restricted container. Variables do\nnot persist between calls. To use it, emit exactly:\n<tool_call>\n{\"name\":\"execute_python\",\"arguments\":{\"code\":\"...\"}}\n</tool_call>\nYou will receive a <tool_result> JSON block and must continue reasoning from that\nobservation. Never invent a tool result. You may make at most\n2 successful execution requests. Malformed requests receive\ncorrective feedback and do not consume that execution budget.\n\nYou may instead solve the problem directly. End with one clear, unambiguous\nnumeric answer or mathematical expression. Prefer marking it as\n<final>answer</final>, but the tag is not required for correctness. Put only the\nanswer inside a final tag.\n"
+    },
+    {
+      "role": "user",
+      "content": "Example: A tray has 6 rows of 7 buttons. How many buttons are there?"
+    },
+    {
+      "role": "assistant",
+      "content": "There are 6 times 7 buttons, so there are 42. <final>42</final>"
+    },
+    {
+      "role": "user",
+      "content": "Example: What is the sum of the squares of the integers from 1 through 20?"
+    },
+    {
+      "role": "assistant",
+      "content": "I will compute the finite sum, then interpret it.\n<tool_call>\n{\"name\":\"execute_python\",\"arguments\":{\"code\":\"print(sum(k*k for k in range(1, 21)))\"}}\n</tool_call>"
+    },
+    {
+      "role": "user",
+      "content": "<tool_result>\n{\"ok\":true,\"stdout\":\"2870\\n\",\"stderr\":\"\",\"exit_code\":0,\"timed_out\":false}\n</tool_result>"
+    },
+    {
+      "role": "assistant",
+      "content": "The execution returned 2870, so the requested sum is 2870. <final>2870</final>"
+    }
+  ]
+}

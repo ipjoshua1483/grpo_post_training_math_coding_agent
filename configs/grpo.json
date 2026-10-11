@@ -1,0 +1,50 @@
+{
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "train_benchmarks": [
+    "gsm8k",
+    "math",
+    "kodcode"
+  ],
+  "train_limits": {
+    "gsm8k": 64,
+    "math": 64,
+    "kodcode": 128
+  },
+  "seed": 42,
+  "prompt_variant": "optional_tool",
+  "domain_prompt_variants": {
+    "math": "compact_math",
+    "code": "compact_code"
+  },
+  "max_steps": 100,
+  "learning_rate": 1e-06,
+  "num_generations": 4,
+  "per_device_train_batch_size": 1,
+  "gradient_accumulation_steps": 1,
+  "max_completion_length": 1536,
+  "max_prompt_tokens": 4096,
+  "max_execute_calls": 2,
+  "max_invalid_calls": 2,
+  "max_agent_turns": 6,
+  "domain_policies": {
+    "math": {
+      "max_execute_calls": 2,
+      "max_invalid_calls": 2,
+      "max_agent_turns": 6
+    },
+    "code": {
+      "max_execute_calls": 4,
+      "max_invalid_calls": 2,
+      "max_agent_turns": 7
+    }
+  },
+  "balanced_domains": true,
+  "shuffle_dataset": false,
+  "temperature": 0.8,
+  "top_p": 0.95,
+  "beta": 0.02,
+  "logging_steps": 1,
+  "save_steps": 25,
+  "bf16": true,
+  "gradient_checkpointing": true
+}

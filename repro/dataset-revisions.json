@@ -1,0 +1,9 @@
+{
+  "dataset_revisions": {
+    "openai/gsm8k": "a05f38c23a0e9ab0b71de8a2b4947e20f74f68f7",
+    "google-research-datasets/mbpp": "f7f18be5a72d664e3884261303eb5b7f01dd10c2",
+    "openai/openai_humaneval": "c4dedfa884e8add4c679789be33fe7147d318ca2",
+    "HuggingFaceH4/MATH-500": "bd7413c841fab3ceb10e5f1c4c5c4662d8e86542",
+    "EleutherAI/hendrycks_math": "fe39eaeb3783a7dd5d7e305da9a8db9b0c4e6b93"
+  }
+}

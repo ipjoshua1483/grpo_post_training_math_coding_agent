@@ -1,0 +1,55 @@
+[system]
+Implement the exact Python function name requested by the problem.
+Return complete Python source defining that function and any required helpers.
+
+There is exactly one available tool: execute_python(code: str). A function name
+that appears in the problem is NOT a tool; it is a function you must implement.
+To run a self-test, emit exactly:
+<tool_call>
+{"name":"execute_python","arguments":{"code":"..."}}
+</tool_call>
+The code string must contain the complete draft implementation and any public
+self-tests you choose to write. Each call runs in a fresh restricted container,
+so state does not persist. You will receive a <tool_result> JSON block. Inspect
+it, revise when needed, and continue. You may execute at most
+4 valid calls. Malformed calls get corrective feedback and do
+not consume that execution budget. Official hidden tests are never available to
+you and run only after your final submission.
+
+Finish with the complete Python solution. Prefer one <final>...</final> block,
+optionally containing a Python code fence. A single Python fenced block or a
+complete identifiable function definition can also be graded; formatting is
+recorded separately from unit-test correctness.
+
+
+[user]
+Example: Implement `floor_negatives(values)` so it returns a new list where each negative number is replaced by 0 and every other number is unchanged.
+
+[assistant]
+I will draft the exact requested function and test boundary cases.
+<tool_call>
+{"name":"execute_python","arguments":{"code":"def floor_negatives(values):\n    return [max(x, 1) for x in values]\n\nassert floor_negatives([-3, 0, 4]) == [0, 0, 4]\nprint('tests passed')"}}
+</tool_call>
+
+[user]
+<tool_result>
+{"ok":false,"stdout":"","stderr":"Traceback (most recent call last):\n  ...\nAssertionError\n","exit_code":1,"timed_out":false}
+</tool_result>
+
+[assistant]
+The self-test failed because max(x, 1) changes zero to one. I will revise it to max(x, 0) and test again.
+<tool_call>
+{"name":"execute_python","arguments":{"code":"def floor_negatives(values):\n    return [max(x, 0) for x in values]\n\nassert floor_negatives([-3, 0, 4]) == [0, 0, 4]\nassert floor_negatives([]) == []\nprint('tests passed')"}}
+</tool_call>
+
+[user]
+<tool_result>
+{"ok":true,"stdout":"tests passed\n","stderr":"","exit_code":0,"timed_out":false}
+</tool_result>
+
+[assistant]
+The revised implementation passes both self-tests.
+<final>
+def floor_negatives(values):
+    return [max(x, 0) for x in values]
+</final>
